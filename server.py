@@ -74,6 +74,8 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
                     data = self.get_wallet_data(wallet, period)
                 elif req_type == 'token_distro':
                     data = self.get_token_distro(wallet)
+                elif req_type == 'token_top_traders':
+                    data = self.get_token_top_traders(wallet)
                 else:
                     self.send_error(400, "Invalid request type")
                     return
@@ -111,6 +113,24 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
         
         raise Exception(f"Could not fetch data after {retries} attempts")
     
+    def get_token_top_traders(self, contract_address):
+        url = f"https://gmgn.ai/defi/quotation/v1/tokens/top_traders/bsc/{contract_address}?orderby=profit&direction=desc"
+        retries = 3
+
+        for attempt in range(retries):
+            try:
+                self.randomise()
+                response = self.sendRequest.get(url, headers=self.headers, allow_redirects=True)
+                if response.status_code == 200:
+                    data = response.json()
+                    if data.get('data'):
+                        return {'msg': 'success', 'data': data['data']}
+            except Exception as e:
+                print(f"Attempt {attempt+1} failed for token_top_traders: {e}")
+                time.sleep(1)
+        
+        return {'msg': 'error', 'data': []}
+
     def get_token_distro(self, wallet):
         url = f"https://gmgn.ai/defi/quotation/v1/rank/bsc/wallets/{wallet}/unique_token_7d?interval=30d"
         retries = 3
@@ -170,7 +190,7 @@ class RequestHandler(http.server.SimpleHTTPRequestHandler):
             "600% +": SixPlus
         }
 
-# Démarrer le serveur
+# Start the server
 with socketserver.TCPServer(("", PORT), RequestHandler) as httpd:
-    print(f"Serveur démarré sur le port {PORT}")
+    print(f"Server started on port {PORT}")
     httpd.serve_forever()
