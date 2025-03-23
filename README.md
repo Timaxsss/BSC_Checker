@@ -67,5 +67,5 @@ Developed by [@timaxss](https://discord.com/) on Discord
 ---
 
 <p align="center">
-Powered by BSC Technology | Copyright © 2025
+Powered by timaxss | Copyright © 2025
 </p>
