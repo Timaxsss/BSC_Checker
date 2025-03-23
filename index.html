@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BNB Wallet Checker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: #4a6bff;
+            margin-bottom: 10px;
+        }
+        .input-group {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4a6bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #3a5ae8;
+        }
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .loader span {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #4a6bff;
+            margin: 0 5px;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+        .loader span:nth-child(1) { animation-delay: -0.32s; }
+        .loader span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes bounce {
+            0%, 80%, 100% { 
+                transform: scale(0);
+            } 40% { 
+                transform: scale(1.0);
+            }
+        }
+        
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+        .data-section {
+            margin-bottom: 30px;
+        }
+        .data-section h3 {
+            border-bottom: 2px solid #4a6bff;
+            padding-bottom: 8px;
+            color: #4a6bff;
+        }
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .data-item {
+            background-color: #f7f9fc;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .data-item h4 {
+            margin-top: 0;
+            color: #555;
+        }
+        .data-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        .positive {
+            color: #28a745;
+        }
+        .negative {
+            color: #dc3545;
+        }
+        .error-message {
+            display: none;
+            color: #dc3545;
+            text-align: center;
+            padding: 15px;
+            background-color: #ffeaea;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .token-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .token-table th {
+            background-color: #4a6bff;
+            color: white;
+            padding: 10px;
+            text-align: left;
+        }
+        .token-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .token-table tr:nth-child(even) {
+            background-color: #f7f9fc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BNB Wallet Checker</h1>
+            <p>Entrez une adresse de portefeuille BNB pour analyser sa performance</p>
+        </header>
+        
+        <div class="input-group">
+            <input type="text" id="wallet-address" placeholder="Entrez l'adresse du portefeuille BNB">
+            <button id="check-button">Analyser</button>
+        </div>
+        
+        <div class="loader" id="loader">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+        <div class="error-message" id="error-message">
+            Impossible de récupérer les données pour cette adresse. Veuillez vérifier l'adresse et réessayer.
+        </div>
+        
+        <div class="results" id="results">
+            <div class="data-section">
+                <h3>Informations générales</h3>
+                <div class="data-grid">
+                    <div class="data-item">
+                        <h4>Profit total</h4>
+                        <div class="data-value" id="total-profit"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Profit réalisé (7 jours)</h4>
+                        <div class="data-value" id="profit-7d"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Profit réalisé (30 jours)</h4>
+                        <div class="data-value" id="profit-30d"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Taux de succès (7 jours)</h4>
+                        <div class="data-value" id="winrate-7d"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Taux de succès (30 jours)</h4>
+                        <div class="data-value" id="winrate-30d"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Solde SOL</h4>
+                        <div class="data-value" id="sol-balance"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Achats (7 jours)</h4>
+                        <div class="data-value" id="buy-7d"></div>
+                    </div>
+                    <div class="data-item">
+                        <h4>Tags</h4>
+                        <div class="data-value" id="tags"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="data-section">
+                <h3>Distribution des tokens (30 jours)</h3>
+                <div id="token-distribution">
+                    <table class="token-table" id="distribution-table">
+                        <thead>
+                            <tr>
+                                <th>Catégorie</th>
+                                <th>Nombre de tokens</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dynamiquement rempli par JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="data-section">
+                <h3>Lien direct</h3>
+                <a id="direct-link" target="_blank" href="#">Voir sur gmgn.ai</a>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkButton = document.getElementById('check-button');
+            const walletInput = document.getElementById('wallet-address');
+            const loader = document.getElementById('loader');
+            const results = document.getElementById('results');
+            const errorMessage = document.getElementById('error-message');
+            
+            async function getWalletData(wallet, period = '7d') {
+                const url = `http://localhost:8000/api/proxy?wallet=${wallet}&type=wallet_data&period=${period}`;
+                
+                try {
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.msg !== "success") {
+                        throw new Error('Data fetch failed');
+                    }
+                    
+                    return data.data;
+                } catch (error) {
+                    console.error('Error fetching wallet data:', error);
+                    throw error;
+                }
+            }
+            
+            async function getTokenDistribution(wallet) {
+                const url = `http://localhost:8000/api/proxy?wallet=${wallet}&type=token_distro`;
+                
+                try {
+                    const response = await fetch(url);
+                    
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    
+                    const data = await response.json();
+                    return data;
+                    
+                } catch (error) {
+                    console.error('Error fetching token distribution:', error);
+                    return {
+                        "No Token Distribution Data": null
+                    };
+                }
+            }
+            
+            function formatNumber(value, isPercent = false, isUSD = false) {
+                if (value === null || value === undefined) {
+                    return "N/A";
+                }
+                
+                if (isPercent) {
+                    const percentValue = (value * 100).toFixed(2);
+                    const element = document.createElement('span');
+                    element.textContent = `${percentValue}%`;
+                    
+                    if (parseFloat(percentValue) > 0) {
+                        element.classList.add('positive');
+                    } else if (parseFloat(percentValue) < 0) {
+                        element.classList.add('negative');
+                    }
+                    
+                    return element.outerHTML;
+                }
+                
+                if (isUSD) {
+                    const usdValue = parseFloat(value).toFixed(2);
+                    const element = document.createElement('span');
+                    element.textContent = `$${usdValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+                    
+                    if (parseFloat(usdValue) > 0) {
+                        element.classList.add('positive');
+                    } else if (parseFloat(usdValue) < 0) {
+                        element.classList.add('negative');
+                    }
+                    
+                    return element.outerHTML;
+                }
+                
+                return value;
+            }
+            
+            async function displayWalletData(wallet) {
+                try {
+                    // Reset UI state
+                    errorMessage.style.display = 'none';
+                    results.style.display = 'none';
+                    loader.style.display = 'block';
+                    
+                    // Fetch data - 7d
+                    const walletData7d = await getWalletData(wallet, '7d');
+                    
+                    // Fetch data - 30d for winrate
+                    const walletData30d = await getWalletData(wallet, '30d');
+                    
+                    // Fetch token distribution
+                    const tokenDistribution = await getTokenDistribution(wallet);
+                    
+                    // Update UI with wallet data
+                    document.getElementById('total-profit').innerHTML = formatNumber(walletData7d.total_profit_pnl, true);
+                    document.getElementById('profit-7d').innerHTML = formatNumber(walletData7d.realized_profit_7d, false, true);
+                    document.getElementById('profit-30d').innerHTML = formatNumber(walletData7d.realized_profit_30d, false, true);
+                    document.getElementById('winrate-7d').innerHTML = formatNumber(walletData7d.winrate, true);
+                    document.getElementById('winrate-30d').innerHTML = formatNumber(walletData30d.winrate, true);
+                    document.getElementById('sol-balance').textContent = walletData7d.sol_balance !== null ? parseFloat(walletData7d.sol_balance).toFixed(2) : "N/A";
+                    document.getElementById('buy-7d').textContent = walletData7d.buy_7d !== null ? walletData7d.buy_7d : "N/A";
+                    document.getElementById('tags').textContent = Array.isArray(walletData7d.tags) ? walletData7d.tags.join(', ') : "N/A";
+                    
+                    // Set direct link
+                    const directLink = document.getElementById('direct-link');
+                    directLink.href = `https://gmgn.ai/bsc/address/${wallet}`;
+                    
+                    // Update token distribution table
+                    const tableBody = document.querySelector('#distribution-table tbody');
+                    tableBody.innerHTML = '';
+                    
+                    for (const [category, count] of Object.entries(tokenDistribution)) {
+                        const row = document.createElement('tr');
+                        
+                        const categoryCell = document.createElement('td');
+                        categoryCell.textContent = category;
+                        
+                        const countCell = document.createElement('td');
+                        countCell.textContent = count !== null ? count : "0";
+                        
+                        row.appendChild(categoryCell);
+                        row.appendChild(countCell);
+                        tableBody.appendChild(row);
+                    }
+                    
+                    // Show results
+                    loader.style.display = 'none';
+                    results.style.display = 'block';
+                    
+                } catch (error) {
+                    console.error('Error processing wallet data:', error);
+                    loader.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                }
+            }
+            
+            // Event listeners
+            checkButton.addEventListener('click', function() {
+                const walletAddress = walletInput.value.trim();
+                if (walletAddress) {
+                    displayWalletData(walletAddress);
+                } else {
+                    alert('Veuillez entrer une adresse de portefeuille valide');
+                }
+            });
+            
+            walletInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const walletAddress = walletInput.value.trim();
+                    if (walletAddress) {
+                        displayWalletData(walletAddress);
+                    } else {
+                        alert('Veuillez entrer une adresse de portefeuille valide');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
