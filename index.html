@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -148,12 +148,12 @@
     <div class="container">
         <header>
             <h1>BNB Wallet Checker</h1>
-            <p>Entrez une adresse de portefeuille BNB pour analyser sa performance</p>
+            <p>Enter a BNB wallet address to analyze its performance</p>
         </header>
         
         <div class="input-group">
-            <input type="text" id="wallet-address" placeholder="Entrez l'adresse du portefeuille BNB">
-            <button id="check-button">Analyser</button>
+            <input type="text" id="wallet-address" placeholder="Enter BNB wallet address">
+            <button id="check-button">Analyze</button>
         </div>
         
         <div class="loader" id="loader">
@@ -163,39 +163,39 @@
         </div>
         
         <div class="error-message" id="error-message">
-            Impossible de récupérer les données pour cette adresse. Veuillez vérifier l'adresse et réessayer.
+            Unable to retrieve data for this address. Please verify the address and try again.
         </div>
         
         <div class="results" id="results">
             <div class="data-section">
-                <h3>Informations générales</h3>
+                <h3>General Information</h3>
                 <div class="data-grid">
                     <div class="data-item">
-                        <h4>Profit total</h4>
+                        <h4>Total Profit</h4>
                         <div class="data-value" id="total-profit"></div>
                     </div>
                     <div class="data-item">
-                        <h4>Profit réalisé (7 jours)</h4>
+                        <h4>Realized Profit (7 days)</h4>
                         <div class="data-value" id="profit-7d"></div>
                     </div>
                     <div class="data-item">
-                        <h4>Profit réalisé (30 jours)</h4>
+                        <h4>Realized Profit (30 days)</h4>
                         <div class="data-value" id="profit-30d"></div>
                     </div>
                     <div class="data-item">
-                        <h4>Taux de succès (7 jours)</h4>
+                        <h4>Success Rate (7 days)</h4>
                         <div class="data-value" id="winrate-7d"></div>
                     </div>
                     <div class="data-item">
-                        <h4>Taux de succès (30 jours)</h4>
+                        <h4>Success Rate (30 days)</h4>
                         <div class="data-value" id="winrate-30d"></div>
                     </div>
                     <div class="data-item">
-                        <h4>Solde SOL</h4>
+                        <h4>BNB Balance</h4>
                         <div class="data-value" id="sol-balance"></div>
                     </div>
                     <div class="data-item">
-                        <h4>Achats (7 jours)</h4>
+                        <h4>Purchases (7 days)</h4>
                         <div class="data-value" id="buy-7d"></div>
                     </div>
                     <div class="data-item">
