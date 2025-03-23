@@ -192,7 +192,7 @@
                     </div>
                     <div class="data-item">
                         <h4>BNB Balance</h4>
-                        <div class="data-value" id="sol-balance"></div>
+                        <div class="data-value" id="bnb-balance"></div>
                     </div>
                     <div class="data-item">
                         <h4>Purchases (7 days)</h4>
@@ -206,25 +206,25 @@
             </div>
             
             <div class="data-section">
-                <h3>Distribution des tokens (30 jours)</h3>
+                <h3>Token Distribution (30 days)</h3>
                 <div id="token-distribution">
                     <table class="token-table" id="distribution-table">
                         <thead>
                             <tr>
-                                <th>Catégorie</th>
-                                <th>Nombre de tokens</th>
+                                <th>Category</th>
+                                <th>Number of Tokens</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Dynamiquement rempli par JavaScript -->
+                            <!-- Dynamically filled by JavaScript -->
                         </tbody>
                     </table>
                 </div>
             </div>
             
             <div class="data-section">
-                <h3>Lien direct</h3>
-                <a id="direct-link" target="_blank" href="#">Voir sur gmgn.ai</a>
+                <h3>Direct Link</h3>
+                <a id="direct-link" target="_blank" href="#">View on gmgn.ai</a>
             </div>
         </div>
     </div>
@@ -339,7 +339,7 @@
                     document.getElementById('profit-30d').innerHTML = formatNumber(walletData7d.realized_profit_30d, false, true);
                     document.getElementById('winrate-7d').innerHTML = formatNumber(walletData7d.winrate, true);
                     document.getElementById('winrate-30d').innerHTML = formatNumber(walletData30d.winrate, true);
-                    document.getElementById('sol-balance').textContent = walletData7d.sol_balance !== null ? parseFloat(walletData7d.sol_balance).toFixed(2) : "N/A";
+                    document.getElementById('bnb-balance').textContent = walletData7d.sol_balance !== null ? parseFloat(walletData7d.sol_balance).toFixed(2) : "N/A";
                     document.getElementById('buy-7d').textContent = walletData7d.buy_7d !== null ? walletData7d.buy_7d : "N/A";
                     document.getElementById('tags').textContent = Array.isArray(walletData7d.tags) ? walletData7d.tags.join(', ') : "N/A";
                     
@@ -382,7 +382,7 @@
                 if (walletAddress) {
                     displayWalletData(walletAddress);
                 } else {
-                    alert('Veuillez entrer une adresse de portefeuille valide');
+                    alert('Please enter a valid wallet address');
                 }
             });
             
@@ -392,7 +392,7 @@
                     if (walletAddress) {
                         displayWalletData(walletAddress);
                     } else {
-                        alert('Veuillez entrer une adresse de portefeuille valide');
+                        alert('Please enter a valid wallet address');
                     }
                 }
             });
