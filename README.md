@@ -14,7 +14,7 @@ BNB Checker is a powerful analytics platform designed for serious BSC traders an
 - **Comprehensive Performance Metrics**
   - Total profit tracking
   - 7-day and 30-day realized profit analysis
-  - Success rate monitoring
+  - Winrate (7d, 30d) monitoring
   - Current BNB balance
   - Transaction history
 
