@@ -1,6 +1,8 @@
 # BNB Checker - Advanced BSC Analytics Platform
 
-  https://github.com/user-attachments/assets/3bd75255-9e59-40ca-a3b2-bb139d4e95ca
+<p align="center">
+  <img src="1.png" alt="BNB Checker Dashboard" width="800">
+</p>
 
 ## 🚀 Overview
 
@@ -47,12 +49,12 @@ BNB Checker is a powerful analytics platform designed for serious BSC traders an
 
 ### Wallet Analysis Dashboard
 <p align="center">
-  ![Capture d’écran 2025-03-25 083032](https://github.com/user-attachments/assets/ce9170c0-3175-4b30-bc05-f576ea5c5112)
+  <img src="2.png" alt="Wallet Analysis" width="800">
 </p>
 
 ### Token Top Traders View
 <p align="center">
-  ![Capture d’écran 2025-03-25 082917](https://github.com/user-attachments/assets/1cd97c9b-0917-4cf1-ba34-3d3ac5432043)
+  <img src="3.png" alt="Top Traders" width="800">
 </p>
 
 ## 🔗 Quick Links
