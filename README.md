@@ -1,8 +1,6 @@
 # BNB Checker - Advanced BSC Analytics Platform
 
-<p align="center">
-  ![Capture d’écran 2025-03-25 082736](https://github.com/user-attachments/assets/3bd75255-9e59-40ca-a3b2-bb139d4e95ca)
-</p>
+  https://github.com/user-attachments/assets/3bd75255-9e59-40ca-a3b2-bb139d4e95ca
 
 ## 🚀 Overview
 
