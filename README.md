@@ -57,10 +57,6 @@ BNB Checker is a powerful analytics platform designed for serious BSC traders an
   <img src="3.png" alt="Top Traders" width="800">
 </p>
 
-## 🔗 Quick Links
-- [Twitter](https://twitter.com/home)
-- [$analyze on Dextools](https://www.dextools.io/app/en/bnb)
-
 ## 👨‍💻 Developer
 Developed by [@timaxss](https://discord.com/) on Discord
 
